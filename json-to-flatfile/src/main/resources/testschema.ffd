@@ -1,0 +1,16 @@
+form: FLATFILE
+structures:
+- id: 'BatchReq'
+  name: Batch Request
+  data:
+  - { idRef: 'RQH' }
+  
+segments:
+- id: 'RQH'
+  name: "Request File Header Record"
+  values:
+  - { name: 'Record Type', type: String, length: 3 }
+  - { name: 'File Creation Date', type: String, length: 8 }
+  - { name: 'File Creation Time', type: String, length: 4 }
+  - { name: 'Unique File Identifier', type: String, length: 10 }
+  - { name: 'Currency', type: String, length: 3 }

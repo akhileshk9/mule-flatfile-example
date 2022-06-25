@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b2817794-778d-4814-b637-e579a0a93f63" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="json-to-flatfileFlow" doc:id="9d691cae-01ca-4326-89a5-e795fb74e124" >
+		<http:listener doc:name="Listener" doc:id="23fbf0d6-1779-4f24-a390-813f93c82be8" config-ref="HTTP_Listener_config" path="/json/to/flatfile"/>
+		<ee:transform doc:name="Transform Message" doc:id="2b6dcd05-98fe-47d2-8805-a335e1b3e508" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/flatfile schemaPath = "testschema.ffd"
+---
+{
+	RQH: {
+		"Record Type": "RQH",
+		"File Creation Date": '1234    ',
+		"File Creation Time": "12  ",
+		"Unique File Identifier": "12345     ",
+		Currency: "DOL"
+	}
+	
+	}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
